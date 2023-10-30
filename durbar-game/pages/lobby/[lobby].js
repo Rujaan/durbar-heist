@@ -8,8 +8,8 @@ import Navbar from "@/components/navbar";
 let socket;
 const lobby = () => {
   const [allPlayers, setAllPlayers] = useState();
-  const [lobbyState, setLobbyState] = useState("lol");
-  const [updatePlayer, setuUdatePlayer] = useState(" ");
+  const [lobbyState, setLobbyState] = useState(" ");
+  const [updatePlayer, setUpdatePlayer] = useState(false);
 
   const router = useRouter();
   const {
@@ -18,6 +18,7 @@ const lobby = () => {
 
   useEffect(() => {
     socketInitializer();
+    console.log("updating");
 
     return () => {
       if (socket) {
@@ -25,7 +26,7 @@ const lobby = () => {
         socket.disconnect();
       }
     };
-  }, [lobbyId, updatePlayer]);
+  }, [lobbyId, allPlayers]);
 
   async function socketInitializer() {
     await fetch("/api/socket");
@@ -36,12 +37,8 @@ const lobby = () => {
       socket.emit("getLobby", lobbyId);
     }
 
-    socket.on("lobbyState"),
-      (lobbyId) => {
-        setUpdatePlayer(lobbyId);
-      };
-
     socket.on("allLobbies", (allPlayers) => {
+      console.log("++++++++++++++++++++++++allPlayers");
       setAllPlayers(allPlayers);
       // Update the lobby state
     });

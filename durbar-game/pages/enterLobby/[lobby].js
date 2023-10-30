@@ -51,7 +51,7 @@ const lobby = () => {
 
     socket = io();
 
-    socket.on("lobbyState", (lobbyId) => {
+    socket.on("lobbyState", (lobbies, lobbyId) => {
       router.push({
         pathname: `/lobby/${lobbyId}`,
         query: {

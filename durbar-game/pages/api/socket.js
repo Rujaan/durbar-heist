@@ -55,11 +55,11 @@ export default function SocketHandler(req, res) {
       // Add the user to the lobby
       lobbies[lobbyId].players.push({ username: username, image: image });
 
-      console.log(lobbies);
-
+      console.log("enter lobby" + lobbies);
+      const allPlayers = lobbies;
       // Send the lobby state to the user
       //   socket.emit("lobbyState", lobbies[lobbyId]);
-      socket.emit("lobbyState", lobbyId);
+      socket.emit("lobbyState", lobbies, lobbyId);
     });
 
     // When you first click on the enter lobby button. Before character choose
@@ -78,15 +78,14 @@ export default function SocketHandler(req, res) {
     socket.on("getLobby", (lobbyId) => {
       const lobby = lobbies[lobbyId];
 
-      console.log(lobby.players);
+      console.log("get lobby" + lobby.players);
 
       if (!lobby) {
         return [];
+      } else {
+        const allPlayers = lobby.players;
+        socket.emit("allLobbies", allPlayers);
       }
-
-      const allPlayers = lobby.players;
-
-      socket.emit("allLobbies", allPlayers);
     });
 
     // Start the game when the lobby is full
